@@ -9,6 +9,10 @@ on:
     branches: [master, main]
     paths:
       - 'packages/dev-frontend/**'
+  pull_request:
+    branches: [master, main]
+    types: [opened, reopened, synchronize]
+    
 
 jobs:
   release:
@@ -40,9 +44,23 @@ jobs:
      #     INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
      #   run: ./packages/dev-frontend/docker-entrypoint.d/99-frontend-config.sh
 
-      - name: Deploy
+      - name: Set branch name
+        id: branch
+        run: echo "::set-output name=BRANCH_NAME::${GITHUB_REF##*/}"
+
+      - name: Deploy Master
+        if: ${{ github.event_name != 'pull_request' }}
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./packages/dev-frontend/build
+          destination_dir: ${{ steps.branch.outputs.BRANCH_NAME }}
+
+      - name: Deploy Pull Request
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: peaceiris/actions-gh-pages@v3.7.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./packages/dev-frontend/build
+          destination_dir: ${{ steps.branch.outputs.BRANCH_NAME }}
         
