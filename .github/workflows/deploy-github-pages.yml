@@ -64,6 +64,16 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./packages/dev-frontend/build
           destination_dir: ${{ github.head_ref }}
+
+  post-pr-comment:
+    needs: deploy-pull-request
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: View context attributes
+        uses: actions/github-script@v5
+        with:
+          script: console.log(context)
         
       - name: PR comment
         uses: actions/github-script@v5
