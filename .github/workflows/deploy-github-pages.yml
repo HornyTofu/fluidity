@@ -20,11 +20,11 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 12.x
+          node-version: '16'
           cache: 'yarn'
 
       - run: yarn install --frozen-lockfile
-      - run: yarn build
+      - run: yarn build:dev-frontend
       
       - uses: actions/upload-artifact@v3
         with:
