@@ -14,7 +14,7 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
-  release:
+  build-frontend:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,29 +37,33 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn build
 
-     # - name: Setup config
-     #   env:
-     #     FRONTEND_TAG: ${{ secrets.FRONTEND_TAG }}
-     #     INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
-     #   run: ./packages/dev-frontend/docker-entrypoint.d/99-frontend-config.sh
+  deploy-master:
+    needs: build-frontend
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Deploy Master
+        uses: peaceiris/actions-gh-pages@v3.7.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./packages/dev-frontend/build
+          destination_dir: ./
+
+  deploy-pull-request:
+    needs: build-frontend
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Set branch name
         id: branch
-        run: echo "::set-output name=BRANCH_NAME::${GITHUB_REF##*/}"
-
-      - name: Deploy Master
-        if: ${{ github.event_name != 'pull_request' }}
-        uses: peaceiris/actions-gh-pages@v3.7.3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./packages/dev-frontend/build
-          destination_dir: ${{ steps.branch.outputs.BRANCH_NAME }}
+        run: echo "::set-output name=BRANCH_NAME::${GITHUB_REF#refs/heads/}"
 
       - name: Deploy Pull Request
-        if: ${{ github.event_name == 'pull_request' }}
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./packages/dev-frontend/build
-          destination_dir: ${{ steps.branch.outputs.BRANCH_NAME }}
+          destination_dir: branch/${{ steps.branch.outputs.BRANCH_NAME }}
         
