@@ -2,7 +2,7 @@ import React from "react";
 import { Web3ReactProvider } from "@web3-react/core";
 import { Flex, Spinner, Heading, ThemeProvider, Paragraph, Link } from "theme-ui";
 
-import { BatchedWebSocketAugmentedWeb3Provider } from "@liquity/providers";
+import { BatchedWebSocketAugmentedWeb3Provider } from "@fluidity/providers";
 import { LiquityProvider } from "./hooks/LiquityContext";
 import { WalletConnector } from "./components/WalletConnector";
 import { TransactionProvider } from "./components/Transaction";
@@ -61,7 +61,7 @@ const UnsupportedMainnetFallback: React.FC = () => (
     </Paragraph>
 
     <Paragraph>
-      If you'd like to use the Liquity Protocol on mainnet, please pick a frontend{" "}
+      This it's a tests. If you'd like to use the Liquity Protocol on mainnet, please pick a frontend{" "}
       <Link href="https://www.liquity.org/frontend">
         here <Icon name="external-link-alt" size="xs" />
       </Link>
