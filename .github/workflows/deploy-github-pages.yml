@@ -74,7 +74,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./packages/dev-frontend/build
+          publish_dir: ./
           destination_dir: ${{ github.head_ref }}
 
   post-pr-comment:
@@ -95,5 +95,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '👋 Thanks for reporting!'
+              body: 'https://${{ context.payload.actor }}.github.io/${{ context.payload.repository.name }}/${{ github.head_ref }}'
             })
