@@ -1,9 +1,5 @@
 name: Release UI to GitHub Pages
 
-env:
-  CI: true
-  FORCE_COLOR: true
-
 on:
   push:
     branches: [master, main]
