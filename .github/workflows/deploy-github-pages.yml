@@ -71,17 +71,17 @@ jobs:
 
     steps:
       - name: View context attributes
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           script: console.log(context)
         
       - name: PR comment
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: ${{ github.head_ref }}
+              body: '👋 Thanks for reporting!'
             })
