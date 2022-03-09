@@ -61,7 +61,7 @@ const UnsupportedMainnetFallback: React.FC = () => (
     </Paragraph>
 
     <Paragraph>
-      If you'd like to use the Liquity Protocol on mainnet, please pick a frontend{" "}
+      This it's a tests. If you'd like to use the Liquity Protocol on mainnet, please pick a frontend{" "}
       <Link href="https://www.liquity.org/frontend">
         here <Icon name="external-link-alt" size="xs" />
       </Link>
