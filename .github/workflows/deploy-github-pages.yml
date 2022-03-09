@@ -11,6 +11,8 @@ on:
       - 'packages/dev-frontend/**'
   pull_request:
     branches: [master, main]
+    paths:
+      - 'packages/dev-frontend/**'
     types: [opened, reopened, synchronize]
 
 jobs:
